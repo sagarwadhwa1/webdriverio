@@ -10,8 +10,11 @@ export default function isElementClickable (elem) {
 
     // Edge before switching to Chromium
     const isOldEdge = !!window.StyleMedia
+    // iOS Safari doesn't support scrollIntoView fully and is not detected by window.safari
+    // checking navigator.platform for iPad 13 desktop mode
+    const isIOS = (/iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1))
     // returns true for Chrome and Firefox and false for Safari, Edge and IE
-    const scrollIntoViewFullSupport = !(window.safari || isOldEdge)
+    const scrollIntoViewFullSupport = !(window.safari || isOldEdge || isIOS)
 
     // get overlapping element
     function getOverlappingElement (elem, context = document) {
